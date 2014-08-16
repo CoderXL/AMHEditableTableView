@@ -49,6 +49,12 @@ static CGFloat ZoomAnimationDuration = 0.20f;
     return self;
 }
 
+- (void)cancel
+{
+    self.longPressRecognizer.enabled = NO;
+    self.longPressRecognizer.enabled = YES;
+}
+
 #pragma mark - Setup
 
 - (void)setupGestureRecognizer
@@ -79,6 +85,12 @@ static CGFloat ZoomAnimationDuration = 0.20f;
     
     if (recognizer.state == UIGestureRecognizerStateBegan)
     {
+        if (indexPath == nil)
+        {
+            [self cancel];
+            return;
+        }
+
         self.initialIndexPath = indexPath;
         
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
