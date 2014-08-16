@@ -10,9 +10,10 @@
 		AF76162C199FE82F00542628 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF76162B199FE82F00542628 /* main.m */; };
 		AF76162F199FE82F00542628 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF76162E199FE82F00542628 /* AppDelegate.m */; };
 		AF761632199FE82F00542628 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF761631199FE82F00542628 /* ViewController.m */; };
-		AF761635199FE82F00542628 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF761633199FE82F00542628 /* Main.storyboard */; };
 		AF761637199FE82F00542628 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF761636199FE82F00542628 /* Images.xcassets */; };
 		AF761643199FE83000542628 /* EditableTableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF761642199FE83000542628 /* EditableTableViewTests.m */; };
+		AF76164E199FE89900542628 /* EditableTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF76164D199FE89900542628 /* EditableTableController.m */; };
+		AF761657199FEA9000542628 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF761656199FEA9000542628 /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,11 +34,13 @@
 		AF76162E199FE82F00542628 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AF761630199FE82F00542628 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		AF761631199FE82F00542628 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		AF761634199FE82F00542628 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AF761636199FE82F00542628 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AF76163C199FE83000542628 /* EditableTableViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EditableTableViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF761641199FE83000542628 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF761642199FE83000542628 /* EditableTableViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditableTableViewTests.m; sourceTree = "<group>"; };
+		AF76164C199FE89900542628 /* EditableTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableTableController.h; sourceTree = "<group>"; };
+		AF76164D199FE89900542628 /* EditableTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditableTableController.m; sourceTree = "<group>"; };
+		AF761656199FEA9000542628 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +86,9 @@
 				AF76162E199FE82F00542628 /* AppDelegate.m */,
 				AF761630199FE82F00542628 /* ViewController.h */,
 				AF761631199FE82F00542628 /* ViewController.m */,
-				AF761633199FE82F00542628 /* Main.storyboard */,
+				AF761656199FEA9000542628 /* ViewController.xib */,
+				AF76164C199FE89900542628 /* EditableTableController.h */,
+				AF76164D199FE89900542628 /* EditableTableController.m */,
 				AF761636199FE82F00542628 /* Images.xcassets */,
 				AF761629199FE82F00542628 /* Supporting Files */,
 			);
@@ -196,7 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF761635199FE82F00542628 /* Main.storyboard in Resources */,
+				AF761657199FEA9000542628 /* ViewController.xib in Resources */,
 				AF761637199FE82F00542628 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,6 +222,7 @@
 			files = (
 				AF761632199FE82F00542628 /* ViewController.m in Sources */,
 				AF76162F199FE82F00542628 /* AppDelegate.m in Sources */,
+				AF76164E199FE89900542628 /* EditableTableController.m in Sources */,
 				AF76162C199FE82F00542628 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -238,17 +244,6 @@
 			targetProxy = AF76163D199FE83000542628 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		AF761633199FE82F00542628 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AF761634199FE82F00542628 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AF761644199FE83000542628 /* Debug */ = {
@@ -402,6 +397,7 @@
 				AF761648199FE83000542628 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AF761649199FE83000542628 /* Build configuration list for PBXNativeTarget "EditableTableViewTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +406,7 @@
 				AF76164B199FE83000542628 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
