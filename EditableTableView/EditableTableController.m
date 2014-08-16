@@ -9,6 +9,7 @@
 #import "EditableTableController.h"
 
 static CGFloat SnapshotZoomScale = 1.1f;
+static CGFloat SnapshotInsaneZoomScale = 1.5f;
 static CGFloat MinLongPressDuration = 0.30f;
 static CGFloat ZoomAnimationDuration = 0.20f;
 
@@ -173,6 +174,32 @@ static CGFloat ZoomAnimationDuration = 0.20f;
             {
                 indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
             }
+        }
+        
+        BOOL shouldMoveCell = YES;
+        if (self.delegate && [self.delegate respondsToSelector:@selector(editableTableController:shouldMoveCellFromInitialIndexPath:toProposedIndexPath:withSuperviewLocation:)])
+        {
+            shouldMoveCell = [self.delegate editableTableController:self shouldMoveCellFromInitialIndexPath:self.initialIndexPath toProposedIndexPath:indexPath withSuperviewLocation:snapshotLocation];
+        }
+        
+        if (!shouldMoveCell)
+        {
+            [UIView animateWithDuration:ZoomAnimationDuration animations:^{
+                
+                self.snapshotView.transform = CGAffineTransformMakeScale(SnapshotInsaneZoomScale, SnapshotInsaneZoomScale);
+                self.snapshotView.alpha = 0.0f;
+                
+            } completion:^(BOOL finished) {
+                
+                [self.snapshotView removeFromSuperview];
+                self.snapshotView = nil;
+                
+                self.initialIndexPath = nil;
+                self.previousIndexPath = nil;
+                
+            }];
+            
+            return;
         }
         
         CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];

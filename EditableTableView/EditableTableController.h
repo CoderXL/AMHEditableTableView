@@ -25,6 +25,11 @@
              fromAboveIndexPath:(NSIndexPath *)fromIndexPath
                toAboveIndexPath:(NSIndexPath *)toIndexPath;
 
+- (BOOL)editableTableController:(EditableTableController *)controller
+shouldMoveCellFromInitialIndexPath:(NSIndexPath *)initialIndexPath
+            toProposedIndexPath:(NSIndexPath *)proposedIndexPath
+          withSuperviewLocation:(CGPoint)location;
+
 - (void)editableTableController:(EditableTableController *)controller
 didMoveCellFromInitialIndexPath:(NSIndexPath *)initialIndexPath
                     toIndexPath:(NSIndexPath *)toIndexPath;

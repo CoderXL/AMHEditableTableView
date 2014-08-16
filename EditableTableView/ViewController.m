@@ -143,6 +143,27 @@ static NSString *Item = @"com.alfiehanssen.item_%i";
     [self.tableView endUpdates];
 }
 
+- (BOOL)editableTableController:(EditableTableController *)controller shouldMoveCellFromInitialIndexPath:(NSIndexPath *)initialIndexPath toProposedIndexPath:(NSIndexPath *)proposedIndexPath withSuperviewLocation:(CGPoint)location
+{
+    CGRect exampleRect = (CGRect){0, 0, self.view.bounds.size.width, 44.0f};
+    if (CGRectContainsPoint(exampleRect, location))
+    {
+        [self.tableView beginUpdates];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[proposedIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+        [self.items removeObjectAtIndex:proposedIndexPath.row];
+        
+        [self.tableView endUpdates];
+        
+        self.itemBeingMoved = nil;
+
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)editableTableController:(EditableTableController *)controller didMoveCellFromInitialIndexPath:(NSIndexPath *)initialIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     [self.items replaceObjectAtIndex:toIndexPath.row withObject:self.itemBeingMoved];
