@@ -36,6 +36,8 @@ didMoveCellFromInitialIndexPath:(NSIndexPath *)initialIndexPath
 @property (nonatomic, weak) id<EditableTableControllerDelegate> delegate;
 @property (nonatomic, assign, getter = isEnabled) BOOL enabled;
 
+@property (nonatomic, weak) UIView *superview; // Optional, tableView will be used as snapshot superview if not set
+
 - (instancetype)initWithTableView:(UITableView *)tableView;
 
 @end

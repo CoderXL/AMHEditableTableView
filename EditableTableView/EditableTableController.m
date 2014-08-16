@@ -8,6 +8,7 @@
 
 #import "EditableTableController.h"
 
+static CGFloat SnapshotZoomScale = 1.1f;
 static CGFloat MinLongPressDuration = 0.30f;
 static CGFloat ZoomAnimationDuration = 0.20f;
 
@@ -36,7 +37,7 @@ static CGFloat ZoomAnimationDuration = 0.20f;
     NSAssert(tableView != nil, @"tableView cannot be nil.");
     NSAssert([tableView numberOfSections] == 1, @"This class currently supports single section tableViews only.");
     NSAssert(tableView.estimatedRowHeight > 0, @"The tableView's estimatedRowHeight must be set.");
-
+    
     self = [super init];
     if (self)
     {
@@ -76,6 +77,28 @@ static CGFloat ZoomAnimationDuration = 0.20f;
     }
 }
 
+#pragma mark - Superview Logic
+
+- (UIView *)snapshotSuperview
+{
+    if (self.superview)
+    {
+        return self.superview;
+    }
+    
+    return self.tableView;
+}
+
+- (CGRect)rectInSuperview:(CGRect)rect
+{
+    return [self.tableView convertRect:rect toView:[self snapshotSuperview]];
+}
+
+- (CGPoint)pointInSuperview:(CGPoint)point
+{
+    return [self.tableView convertPoint:point toView:[self snapshotSuperview]];
+}
+
 #pragma mark - Gestures
 
 - (void)didRecognizeLongPress:(UILongPressGestureRecognizer *)recognizer
@@ -90,21 +113,24 @@ static CGFloat ZoomAnimationDuration = 0.20f;
             [self cancel];
             return;
         }
-
+        
         self.initialIndexPath = indexPath;
         
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
+        rect = [self rectInSuperview:rect];
+        
         self.snapshotView = [cell snapshotViewAfterScreenUpdates:NO];
-        self.snapshotView.frame = CGRectOffset(self.snapshotView.bounds, rect.origin.x, rect.origin.y);        
-        [self.tableView addSubview:self.snapshotView];
+        self.snapshotView.frame = CGRectOffset(self.snapshotView.bounds, rect.origin.x, rect.origin.y);
+        [[self snapshotSuperview] addSubview:self.snapshotView];
         
         // Trigger animation...
+        CGPoint snapshotLocation = [self pointInSuperview:location];
         [UIView animateWithDuration:ZoomAnimationDuration animations:^{
-            self.snapshotView.transform = CGAffineTransformMakeScale(1.1, 1.1);
-            self.snapshotView.center = CGPointMake(self.tableView.center.x, location.y);
+            self.snapshotView.transform = CGAffineTransformMakeScale(SnapshotZoomScale, SnapshotZoomScale);
+            self.snapshotView.center = CGPointMake(self.tableView.center.x, snapshotLocation.y);
         }];
-    
+        
         // ...before modifying tableView
         if (self.delegate && [self.delegate respondsToSelector:@selector(editableTableController:willBeginMovingCellAtIndexPath:)])
         {
@@ -115,8 +141,9 @@ static CGFloat ZoomAnimationDuration = 0.20f;
     }
     else if (recognizer.state == UIGestureRecognizerStateChanged)
     {
-        self.snapshotView.center = (CGPoint){self.tableView.center.x, location.y};
-
+        CGPoint snapshotLocation = [self pointInSuperview:location];
+        self.snapshotView.center = (CGPoint){self.tableView.center.x, snapshotLocation.y};
+        
         // Only notify delegate upon moving above a new cell
         if (self.previousIndexPath && indexPath && ![self.previousIndexPath isEqual:indexPath])
         {
@@ -130,8 +157,9 @@ static CGFloat ZoomAnimationDuration = 0.20f;
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded)
     {
-        self.snapshotView.center = (CGPoint){self.tableView.center.x, location.y};
-
+        CGPoint snapshotLocation = [self pointInSuperview:location];
+        self.snapshotView.center = (CGPoint){self.tableView.center.x, snapshotLocation.y};
+        
         // Check if the cell being moved is above the first cell or below the last
         if (indexPath == nil)
         {
@@ -148,7 +176,8 @@ static CGFloat ZoomAnimationDuration = 0.20f;
         }
         
         CGRect rect = [self.tableView rectForRowAtIndexPath:indexPath];
-
+        rect = [self rectInSuperview:rect];
+        
         [UIView animateWithDuration:ZoomAnimationDuration animations:^{
             self.snapshotView.transform = CGAffineTransformIdentity;
             self.snapshotView.center = (CGPoint){CGRectGetMidX(rect), CGRectGetMidY(rect)};
@@ -158,7 +187,7 @@ static CGFloat ZoomAnimationDuration = 0.20f;
             {
                 [self.delegate editableTableController:self didMoveCellFromInitialIndexPath:self.initialIndexPath toIndexPath:indexPath];
             }
-
+            
             [self.snapshotView removeFromSuperview];
             self.snapshotView = nil;
             
