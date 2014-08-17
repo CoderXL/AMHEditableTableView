@@ -1,9 +1,9 @@
 //
 //  EditableTableController.m
-//  XYEdit
+//  Edit Demo
 //
 //  Created by Alfred Hanssen on 8/15/14.
-//  Copyright (c) 2014 XY. All rights reserved.
+//  Copyright (c) 2014 Alfie Hanssen. All rights reserved.
 //
 
 #import "EditableTableController.h"
